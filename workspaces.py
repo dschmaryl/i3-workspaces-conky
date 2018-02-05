@@ -5,9 +5,11 @@ from json import loads
 from subprocess import check_output
 
 
+# use hex codes here or the color variables from conkyrc
 COLOR_FOCUSED = 'color8'
 COLOR_UNFOCUSED = 'color4'
 COLOR_INVISIBLE = 'color1'
+
 COMMAND = 'i3-msg -t get_workspaces'
 
 spaces = loads(check_output(COMMAND.split()).decode('utf-8'))
