@@ -21,6 +21,8 @@ def get_visible_workspaces():
 
 
 def format_for_conky(visible_spaces):
+    # formats to a single line of workspace numbers with different colors to
+    # denote focused/unfocused/invisible states
     output = []
     for i in range(1, 11):
         try:
