@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from json import loads
 from subprocess import check_output
@@ -14,15 +13,15 @@ WORKSPACES_COMMAND = 'i3-msg -t get_workspaces'
 
 
 def get_visible_workspaces():
-    # returns a dict pairing the visible workspaces with the focused state of
-    # each of these workspaces
+    # returns a dictionary containing each of the visible workspaces as a key
+    # and the focused state of the workspace as its value
     visible_spaces = loads(check_output(WORKSPACES_COMMAND.split()))
     return {space['num']: space['focused'] for space in visible_spaces}
 
 
 def format_for_conky(visible_spaces):
-    # formats to a single line of workspace numbers with different colors to
-    # denote focused/unfocused/invisible states
+    # formats to a single line of workspace numbers with the appropriate
+    # colors to denote the focused/unfocused/invisible states
     output = []
     for i in range(1, 11):
         try:
