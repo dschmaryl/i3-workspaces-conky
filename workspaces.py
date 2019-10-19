@@ -8,6 +8,7 @@ from subprocess import check_output
 COLOR_FOCUSED = 'color8'
 COLOR_UNFOCUSED = 'color4'
 COLOR_INVISIBLE = 'color1'
+COLOR_URGENT = COLOR_UNFOCUSED
 
 WORKSPACES_COMMAND = 'i3-msg -t get_workspaces'
 
@@ -16,7 +17,15 @@ def get_visible_workspaces():
     # returns a dictionary containing each of the visible workspaces as a key
     # and the focused state of the workspace as its value
     visible_spaces = loads(check_output(WORKSPACES_COMMAND.split()))
-    return {space['num']: space['focused'] for space in visible_spaces}
+    spaces = {}
+    for space in visible_spaces:
+        if space['urgent']:
+            spaces[space['num']] = 'urgent'
+        elif space['focused']:
+            spaces[space['num']] = 'focused'
+        else:
+            spaces[space['num']] = 'unfocused'
+    return spaces
 
 
 def format_for_conky(visible_spaces):
@@ -25,8 +34,12 @@ def format_for_conky(visible_spaces):
     output = []
     for i in range(1, 11):
         try:
-            color = COLOR_FOCUSED if visible_spaces[i] else COLOR_UNFOCUSED
-            output.append('${%s}%i' % (color, i))
+            if visible_spaces[i] == 'urgent':
+                output.append('${%s}%i' % (COLOR_URGENT, i))
+            elif visible_spaces[i] == 'focused':
+                output.append('${%s}%i' % (COLOR_FOCUSED, i))
+            else:
+                output.append('${%s}%i' % (COLOR_UNFOCUSED, i))
         except KeyError:
             output.append('${%s}%i' % (COLOR_INVISIBLE, i))
     return ' '.join(output)

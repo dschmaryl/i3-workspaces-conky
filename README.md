@@ -1,6 +1,6 @@
 # i3 workspaces for conky
 
-This script can be used to show i3 workspaces in conky, with different colors for focused, unfocused, and empty workspaces.
+This script can be used to display the i3 workspaces in conky, with different colors for focused, unfocused, urgent and empty workspaces.
 
 To install:
 
