@@ -16,16 +16,16 @@ WORKSPACES_COMMAND = 'i3-msg -t get_workspaces'
 def get_visible_workspaces():
     # returns a dictionary containing each of the visible workspaces as a key
     # and the focused state of the workspace as its value
-    visible_spaces = loads(check_output(WORKSPACES_COMMAND.split()))
-    spaces = {}
-    for space in visible_spaces:
+    visible_spaces = {}
+    output = loads(check_output(WORKSPACES_COMMAND.split()))
+    for space in output:
         if space['urgent']:
-            spaces[space['num']] = 'urgent'
+            visible_spaces[space['num']] = 'urgent'
         elif space['focused']:
-            spaces[space['num']] = 'focused'
+            visible_spaces[space['num']] = 'focused'
         else:
-            spaces[space['num']] = 'unfocused'
-    return spaces
+            visible_spaces[space['num']] = 'unfocused'
+    return visible_spaces
 
 
 def format_for_conky(visible_spaces):
